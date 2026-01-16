@@ -1,41 +1,58 @@
 body{
   margin:0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#2193b0,#6dd5ed);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#2193b0,#6dd5ed);
 }
 
-.app{
-  background:white;
-  padding:20px;
-  border-radius:15px;
+/* Main card */
+.weather-card{
+  background:#ffffff;
+  padding:25px;
   width:320px;
+  border-radius:16px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
 }
 
-h1{
+/* Heading */
+.weather-card h1{
   margin-top:0;
+  margin-bottom:15px;
 }
 
-button{
+/* Input */
+.weather-card input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:10px;
+  font-size:15px;
+}
+
+/* Button */
+.weather-card button{
   width:100%;
   padding:10px;
   border:none;
   border-radius:8px;
   background:#2196f3;
-  color:white;
+  color:#fff;
   font-size:16px;
-  margin-top:10px;
+  cursor:pointer;
 }
 
-input{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
+.weather-card button:hover{
+  background:#1976d2;
+}
+
+/* Output */
+#output{
+  margin-top:15px;
+  font-size:15px;
+  line-height:1.6;
 }
