@@ -1,42 +1,31 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <!-- Page title -->
-  <title>Kekri Weather | Live Weather Updates</title>
-
-  <!-- Mobile responsive -->
+  <meta charset="UTF-8">
+  <title>Kekri Weather</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS file link -->
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- Main weather card -->
-  <div class="weather-card">
-
-    <!-- Heading -->
+  <div class="app">
     <h1>🌦 Kekri Weather</h1>
 
-    <!-- City input -->
-    <input
-      id="cityInput"
-      type="text"
-      placeholder="City name (Kekri, Ajmer, Jaipur)"
-    >
+    <input id="cityInput" type="text" placeholder="Enter city name">
+    <button onclick="getWeatherByCity()">Search</button>
 
-    <!-- Button -->
-    <button onclick="getWeather()">Check Weather</button>
+    <button class="gps" onclick="getWeatherByLocation()">📍 Use My Location</button>
 
-    <!-- Output -->
-    <div id="output">
-      Weather information yahan dikhegi 👇
+    <div id="weatherBox" class="hidden">
+      <h2 id="cityName"></h2>
+      <img id="icon" />
+      <p id="temp"></p>
+      <p id="desc"></p>
     </div>
 
+    <p id="error"></p>
   </div>
 
-  <!-- JavaScript file -->
   <script src="script.js"></script>
 </body>
 </html>
