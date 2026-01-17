@@ -1,43 +1,52 @@
-// 🔑 OpenWeather API Key
-const apiKey = "b8eb9786c9e4334de4a6809aeaa785da";
+const API_KEY = "b8eb9786c9e4334de4a6809aeaa785da";
 
-function getWeather(){
-  const cityInput = document.getElementById("cityInput");
-  const output = document.getElementById("output");
-
-  // Default city = Kekri, India
-  let city = cityInput.value.trim();
-  if(city === ""){
-    city = "Kekri,IN";
-  }else{
-    city = city + ",IN";
+function setBackground(weather) {
+  if (weather.includes("cloud")) {
+    document.body.style.background = "linear-gradient(#bdc3c7,#2c3e50)";
+  } else if (weather.includes("rain")) {
+    document.body.style.background = "linear-gradient(#4b79a1,#283e51)";
+  } else if (weather.includes("clear")) {
+    document.body.style.background = "linear-gradient(#f7971e,#ffd200)";
+  } else {
+    document.body.style.background = "linear-gradient(#74ebd5,#ACB6E5)";
   }
+}
 
-  // Loading message
-  output.innerHTML = "⏳ मौसम लोड हो रहा है...";
+function showWeather(data) {
+  document.getElementById("weatherBox").classList.remove("hidden");
+  document.getElementById("error").innerText = "";
 
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&lang=hi&appid=${apiKey}`
-  )
-  .then(response => response.json())
-  .then(data => {
+  document.getElementById("cityName").innerText = data.name;
+  document.getElementById("temp").innerText = Math.round(data.main.temp) + "°C";
+  document.getElementById("desc").innerText = data.weather[0].description;
+  document.getElementById("icon").src =
+    `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
 
-    // Error handling
-    if(data.cod !== 200){
-      output.innerHTML = "❌ मौसम की जानकारी नहीं मिली";
-      return;
-    }
+  setBackground(data.weather[0].description);
+}
 
-    // Success output
-    output.innerHTML = `
-      🌍 शहर: <b>${data.name}</b><br>
-      🌡 तापमान: <b>${Math.round(data.main.temp)} °C</b><br>
-      ☁ मौसम: <b>${data.weather[0].description}</b><br>
-      💧 नमी: <b>${data.main.humidity}%</b><br>
-      🌬 हवा: <b>${data.wind.speed} m/s</b>
-    `;
-  })
-  .catch(() => {
-    output.innerHTML = "❌ Network / API समस्या";
+function getWeatherByCity() {
+  const city = document.getElementById("cityInput").value;
+  if (!city) return;
+
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+    .then(res => {
+      if (!res.ok) throw new Error("City not found");
+      return res.json();
+    })
+    .then(showWeather)
+    .catch(() => {
+      document.getElementById("error").innerText = "City not found ❌";
+    });
+}
+
+function getWeatherByLocation() {
+  navigator.geolocation.getCurrentPosition(pos => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`)
+      .then(res => res.json())
+      .then(showWeather);
   });
 }
